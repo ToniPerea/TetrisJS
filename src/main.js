@@ -46,7 +46,7 @@ const board = [
 ]
 
 // 4. Figures
-const piece = {
+const square = {
     position: { x: 5, y: 5 },
     shape: [
         [1, 1],
@@ -74,20 +74,46 @@ function draw () {
         })
     })
 
-    piece.shape.forEach((row, y) => {
+    square.shape.forEach((row, y) => {
         row.forEach((value, x) => {
             if(value){
                 context.fillStyle = 'red'
-                context.fillRect(x + piece.position.x, y + piece.position.y, 1, 1)
+                context.fillRect(x + square.position.x, y + square.position.y, 1, 1)
             }
         })
     })
 }
 
-document.addEventListener('keydown' , event => {
-    if (event.key === 'ArrowLeft') piece.position.x--
-    if (event.key === 'ArrowRight') piece.position.x++
-    if (event.key === 'ArrowDown') piece.position.y++
-})
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft") {
+    square.position.x--;
+    if (checkCollision()) {
+      square.position.x++;
+    }
+  }
+  if (event.key === "ArrowRight") {
+    square.position.x++;
+    if (checkCollision()) {
+      square.position.x--;
+    }
+  }
+  if (event.key === "ArrowDown") {
+    square.position.y++;
+    if (checkCollision()) {
+      square.position.y--;
+    }
+  }
+});
+
+function checkCollision () {
+    return square.shape.find((row, y) => {
+        return row.find((value, x) => {
+            return (
+                value !== 0 &&
+                board[y + square.position.y]?.[x + square.position.x] !== 0
+            )
+        })
+    })
+}
 
 update()
