@@ -1,9 +1,15 @@
-import { BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, EVENT_MOVEMENTS} from './consts'
+import {
+  BLOCK_SIZE,
+  BOARD_WIDTH,
+  BOARD_HEIGHT,
+  EVENT_MOVEMENTS,
+} from "./consts.js";
+
 // Initialize canvas
 
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
-const $score = document.querySelector('span')
+const $score = document.querySelector("span");
 
 let score = 0;
 
@@ -22,10 +28,12 @@ context.scale(BLOCK_SIZE, BLOCK_SIZE);
 //[0,0,0],
 //[0,0,0],
 //]
-const board = createBoard(BOARD_WIDTH, BOARD_HEIGHT)
+const board = createBoard(BOARD_WIDTH, BOARD_HEIGHT);
 
 function createBoard(width, height) {
-    return Array(height).fill().map(() => Array.width.fill(0))
+  return Array(height)
+    .fill()
+    .map(() => Array(width).fill(0));
 }
 
 // 4. Figures
@@ -112,7 +120,7 @@ function draw() {
     });
   });
 
-  $score.innerText = score
+  $score.innerText = score;
 }
 
 document.addEventListener("keydown", (event) => {
@@ -136,25 +144,25 @@ document.addEventListener("keydown", (event) => {
       removeRows();
     }
   }
-  if (event.key === EVENT_MOVEMENTS.UP){
-    const rotated = []
+  if (event.key === EVENT_MOVEMENTS.UP) {
+    const rotated = [];
 
-    for (let i = 0; i < piece.shape[0].length; i++){
-        const row = []
+    for (let i = 0; i < piece.shape[0].length; i++) {
+      const row = [];
 
-        for(let j = piece.shape.length - 1; j >= 0; j--){
-            row.push(piece.shape[j][i])
-        }
+      for (let j = piece.shape.length - 1; j >= 0; j--) {
+        row.push(piece.shape[j][i]);
+      }
 
-        rotated.push(row)
+      rotated.push(row);
     }
 
-    const previousShape = piece.shape
-    piece.shape = rotated
-    if (checkCollision()){
-        piece.shape = previousShape
+    const previousShape = piece.shape;
+    piece.shape = rotated;
+    if (checkCollision()) {
+      piece.shape = previousShape;
     }
-  } 
+  }
 });
 
 function checkCollision() {
@@ -201,8 +209,16 @@ function removeRows() {
     board.splice(y, 1);
     const newRow = Array(BOARD_WIDTH).fill(0);
     board.unshift(newRow);
-    score += 10
+    score += 10;
   });
 }
 
-update();
+const $section = document.querySelector("section")
+$section.addEventListener("click", () => {
+  update();
+
+  $section.remove()
+  const audio = new window.Audio("./tetris.mp3");
+  audio.volume = 0.5;
+  audio.play();
+});
