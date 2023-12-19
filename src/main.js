@@ -42,7 +42,7 @@ const board = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
 // 4. Figures
@@ -54,6 +54,31 @@ const piece = {
     ]
 }
 
+// 9. Random pieces
+const PIECES = [
+    [
+        [1, 1],
+        [1, 1]
+    ],
+    [
+        [1, 1, 1, 1]
+    ],
+    [
+        [0, 1, 0],
+        [1, 1, 1]
+    ],
+    [
+        [1, 1, 0],
+        [0, 1, 1]
+    ],
+    [
+        [1, 0],
+        [1, 0],
+        [1, 1],
+    ]
+]
+
+
 
 // 2. game loop
 // function update () {
@@ -61,9 +86,10 @@ const piece = {
 //     window.requestAnimationFrame(update)
 // }
 
+// Game loop upgrade for move the piece down automatically
 let dropCounter = 0 
 let lastTime = 0
-// Game loop upgrade for move the piece down automatically
+
 function update (time = 0){
     const deltaTime = time - lastTime
     lastTime = time
@@ -150,8 +176,12 @@ function solidifyPiece() {
             }
         })
     })
+
+    // Reset position
     piece.position.x = 0
     piece.position.y = 0
+    // get random shape
+    piece.shape = PIECES[Math.floor(Math.random() * PIECES.length)]
 }
 
 function removeRows () { 
