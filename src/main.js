@@ -220,5 +220,6 @@ $section.addEventListener("click", () => {
   $section.remove()
   const audio = new window.Audio("./tetris.mp3");
   audio.volume = 0.5;
+  audio.loop = true
   audio.play();
 });
